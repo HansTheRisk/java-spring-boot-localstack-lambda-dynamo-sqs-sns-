@@ -1,4 +1,6 @@
 *.class
 .idea/**
 target/
-terraform/.terraform/plugins/
+**/.terraform/*
+*.tfstate
+*.tfstate.*
