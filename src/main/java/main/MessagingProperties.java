@@ -7,4 +7,5 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Data
 public class MessagingProperties {
     private String requestTopic;
+    private String requestQueue;
 }
