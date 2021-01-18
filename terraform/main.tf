@@ -92,3 +92,9 @@ resource "aws_sqs_queue_policy" "lambda_exec_request_queue_policy" {
 	}
 	POLICY
 }
+
+resource "aws_sns_topic_subscription" "lamba_exec_request_subscription" {
+  topic_arn = aws_sns_topic.lambda_exec_request_topic.arn
+  protocol  = "sqs"
+  endpoint  = aws_sqs_queue.lambda_exec_request_queue.arn
+}
