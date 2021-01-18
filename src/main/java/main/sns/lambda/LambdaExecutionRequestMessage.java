@@ -3,14 +3,19 @@ package main.sns.lambda;
 import org.springframework.messaging.MessageHeaders;
 import sns.message.InternalMessage;
 
-public class LambdaExecutionRequestMessage extends InternalMessage {
+public class LambdaExecutionRequestMessage extends InternalMessage<String> {
+
+    public LambdaExecutionRequestMessage(String payload) {
+        super(payload);
+    }
+
     @Override
-    public Object getPayload() {
-        return null;
+    public String getPayload() {
+        return payload;
     }
 
     @Override
     public MessageHeaders getHeaders() {
-        return null;
+        return messageHeaders;
     }
 }

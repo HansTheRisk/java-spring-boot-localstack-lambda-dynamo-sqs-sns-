@@ -1,13 +1,11 @@
 package main.repository.user;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverted;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTyped;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import main.dynamo.mapper.user.authority.AuthoritySetConverter;
@@ -84,21 +82,6 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return enabled;
-    }
-
-    @DynamoDBDocument
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class Authority implements GrantedAuthority {
-
-        @DynamoDBAttribute
-        private String authority;
-
-        @Override
-        public String getAuthority() {
-            return authority;
-        }
     }
 
 }

@@ -1,19 +1,27 @@
 package main;
 
+import main.repository.user.Authority;
 import main.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
+@Order
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private AuthenticationSuccessHandler authenticationSuccessHandler;
 
     @Autowired
     private UserService userService;
@@ -31,14 +39,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/user/*").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/admin/*").hasRole("ADMIN")
-                .antMatchers("/").permitAll()
-                .anyRequest().authenticated()
+        http.csrf()
+                .disable().cors().disable().authorizeRequests()
+                .antMatchers("/admin/**").hasAuthority(Authority.ADMIN_AUTHORITY.getAuthority())
+                .antMatchers("/user/**").hasAuthority(Authority.USER_AUTHORITY.getAuthority())
                 .and()
-                    .formLogin().permitAll()
-                .and()
-                    .logout().permitAll();
+                .formLogin().successHandler(authenticationSuccessHandler);
     }
 }
