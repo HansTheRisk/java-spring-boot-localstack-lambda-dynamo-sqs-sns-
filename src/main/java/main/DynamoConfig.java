@@ -12,10 +12,10 @@ import org.springframework.context.annotation.Configuration;
 @EnableDynamoDBRepositories
 public class DynamoConfig extends AmazonDynamoConfig {
 
-    @Bean
-    public DynamoDBMapper dynamoDBMapper() {
-        return new DynamoDBMapper(amazonDynamoDB());
-    }
+    //@Bean
+    //public DynamoDBMapper dynamoDBMapper() {
+      //  return new DynamoDBMapper(amazonDynamoDB());
+    //}
 
     @Bean
     public DynamoDB dynamoDB() {
